@@ -3,6 +3,8 @@ package com.rural.sports.controllers;
 import com.rural.sports.models.User;
 import com.rural.sports.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +15,13 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @GetMapping("/me")
+    public User getCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        return userService.findByUsername(username);
+    }
 
     @GetMapping
     public List<User> getAllUsers() {
@@ -42,5 +51,14 @@ public class UserController {
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
+    }
+
+    @PutMapping("/{id}/status")
+    public void updateUserStatus(@PathVariable Long id, @RequestBody User statusUpdate) {
+        User user = userService.getUserById(id);
+        if (user != null) {
+            user.setStatus(statusUpdate.getStatus());
+            userService.updateUser(id, user);
+        }
     }
 }

@@ -13,7 +13,10 @@ public class Donation {
     private Long id;
 
     private String materialType;
+    
+    @Column(name = "`condition`")
     private String condition;
+    
     private String status; // PENDING, APPROVED, REJECTED
 
     @ManyToOne

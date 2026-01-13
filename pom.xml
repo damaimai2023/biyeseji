@@ -13,7 +13,7 @@
     <name>rural-sports-platform</name>
     <description>A Spring Boot backend for the Rural Public Welfare Sports Event Platform.</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
     </properties>
     <dependencies>
         <dependency>
